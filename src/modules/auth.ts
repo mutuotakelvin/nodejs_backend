@@ -9,33 +9,31 @@ export const createJWT = (user) => {
     return token;
 };
 
-export const protect = (req, res, next) => {
-    const bearer = req.headers.authorization;
-  
-    if (!bearer) {
-      res.status(401);
-      res.send("Not authorized");
-      return;
+export const protect = (req,res,next) => {
+    const bearer = req.headers.authorization
+
+    if(!bearer){
+        res.status(401)
+        res.json({message:'not authorized'})
+        return
     }
-  
-    const [, token] = bearer.split(" ");
-    if (!token) {
-      console.log("here");
-      res.status(401);
-      res.send("Not authorized");
-      return;
+
+    const [,token] = bearer.split('')
+
+    if(!token){
+        res.status(401)
+        res.json({message:'Invalid token'})
+        return
     }
-  
+
     try {
-      const payload = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = payload;
-      console.log(payload);
-      next();
-      return;
-    } catch (e) {
-      console.error(e);
-      res.status(401);
-      res.send("Not authorized");
-      return;
+        const user = jwt.verify(token,process.env.JWT_SECRET)
+        req.user = user
+        next()
+    } catch (error) {
+        console.error(error)
+        res.status(401)
+        res.json({message:'Invalid token'})
+        return
     }
-  };
+}
