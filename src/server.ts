@@ -18,9 +18,9 @@ app.get('/',(req,res)=>{
     res.status(200)
     res.json({message:'hello'})
 })
-
-app.use('/api', protect, router)
-
 app.post('/user',createNewUser)
 app.post('/signin',signin)
+
+app.use('/api',protect, router)
+
 export default app
