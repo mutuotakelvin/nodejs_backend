@@ -42,8 +42,8 @@ router.put('/updatepoint/:id',
     body('description').optional().isString(),
 () => {})
 router.post('/updatepoint',
-    body('name').optional().isString(),
-    body('description').optional().isString(),
+    body('name').isString(),
+    body('description').isString(),
     body('updateId').exists().isString(),
     () => {})
 router.delete('/updatepoint', () => {})
